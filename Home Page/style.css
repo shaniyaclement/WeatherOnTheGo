@@ -1,0 +1,178 @@
+html { 
+	background: url("https://images.unsplash.com/photo-1499346030926-9a72daac6c63?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60") no-repeat center center fixed; 
+	background-size: cover;
+}
+
+body {
+	display:flex;
+	flex-direction: column;
+	margin: 0;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 120%;
+}
+
+header {
+    background: #111e6c;
+    height: 70px;
+    position: relative;
+}
+
+.header-content {
+	display: flex;
+}
+
+.logo-section {
+	position:relative;
+	padding: 10px;
+}
+
+.logo {
+	border-radius: 45%;
+}
+
+.nav-content li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.nav-content li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 0;
+    position: relative   ;
+    font-family: 'Alegreya Sans', sans-serif !important;
+}
+
+.nav-content li a::after {
+    content: '';
+    background: #dde8f3;
+    width: 0;
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.5s;
+}
+
+.nav-content li a:hover::after {
+    width: 100%;
+}
+
+.search-container {
+	display: flex;
+	margin-left: auto;
+	margin-top: 16px;
+}
+
+.search-bar {
+	margin: 0 10px;
+}
+
+.bar {
+	width: 30em;
+	height: 1.8em;
+	padding: 5px;
+	border: none;
+	border-radius: 6px;
+	color: white;
+	background-color: gray;
+}
+
+.btn-primary {
+	height: 32px;
+	width: 32px;
+	margin-right: 10px;
+	border: none;
+    outline: none;
+	border-radius: 50%;
+    background: #7c7c7c2b;
+	background-color: gray;
+    color: white;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+	color: #7c7c7c6b;
+}
+
+main {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.card-body {
+	background: #1a1312d0;
+	margin: 25px;
+	margin-top: 40px;
+	width: 450px;
+	height: 420px;
+	outline: none;
+	border-radius: 10%;
+}
+
+.weather-details {
+	color: white;
+	padding: 25px;
+}
+
+.icon {
+	height: 80px;
+	width: 80px;
+}
+
+.temp {
+    margin: 0;
+    margin-bottom: 0.4em;
+}
+
+.icon-description {
+    display: flex;
+    align-items: center;
+}
+
+.other-details > div{
+	padding: 5px;
+}
+
+.description {
+    text-transform: capitalize;
+    margin-left: 8px;
+}
+
+footer {
+    clear: both;
+    background: #111e6c;
+    margin-top: 50px;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    font-family: 'Alegreya Sans', sans-serif !important;
+}
+
+@media only screen and (max-width:768px) {
+	header {
+		height: auto;
+	}
+
+	.logo-section {
+		display: flex;
+		justify-content: center;
+	}
+
+	.logo {
+		height: 60px;
+		height: 60px;
+	}
+
+	.header-content {
+		display: grid;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.search-container {
+		margin:0 0 10px 0;
+	}
+}
