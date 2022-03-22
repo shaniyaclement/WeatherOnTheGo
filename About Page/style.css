@@ -90,19 +90,19 @@ h1{
     text-align: center;
 }
 
-.container-three img{
+.container-three img {
     border: 4px solid #111e6c;
     border-radius: 6px;
 }
 
-.container-four{
+.container-four {
     text-align: center;
     margin: 100px;
     color: #111e6c;
     line-height: 1.4em;
 }
 
-.container-four h2{
+.container-four h2 {
     text-decoration: underline #111e6c;
     text-align: center;
 }
@@ -141,8 +141,7 @@ p{
 header{
     background: #111e6c;
     height: 70px;
-    width: 1300px;
-    padding: 0 8%;
+    width: 100%;
     position: relative;
 }
 
@@ -202,24 +201,9 @@ footer{
     font-family: 'Alegreya Sans', sans-serif !important;
 }
 
-/* @media only screen and (max-width:768px) {
-	header {
-		height: auto;
-	}
-
-	.logo-section {
-		display: flex;
-		justify-content: center;
-	}
-
-	.logo {
-		height: 60px;
-		height: 60px;
-	}
-
-	.header-content {
-		display: grid;
+@media only screen and (max-width:768px) {
+	.nav {
 		align-items: center;
 		justify-content: center;
 	}
-} */
+}
