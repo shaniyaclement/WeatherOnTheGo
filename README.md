@@ -25,3 +25,5 @@ Shaniya Clement: SClement15@my.fisk.edu
 Emmanuel Ikeh: ETIkeh30@my.fisk.edu
 
 Trenton Moore: TMMoore10@my.fisk.edu 
+
+Emmanuel Ketsri: edketsri23@my.fisk.edu
