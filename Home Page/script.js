@@ -8,7 +8,7 @@ let weather = {
     apiKey: "942dd77fa358eb3439a8212cb16724cd",
 
     // User's location upon opening the webpage.
-    coordinates: ["",""],
+    coordinates: ["", ""],
 
     // Returns the appropriate unit parameter based on the user's choice
     getUnit: function () {
@@ -22,28 +22,29 @@ let weather = {
     // Fetches the weather information from API based on city name
     fetchWeatherByCity: function (city) {
         // Making API call
-        fetch("https://api.openweathermap.org/data/2.5/weather?q="
-            + city
-            + "&units=" + this.getUnit() + "&appid="
-            + this.apiKey
-        )
-            .then((response) => response.json())
-            .then((data) => this.getWeatherInfo(data));
+        try {
+            fetch("https://api.openweathermap.org/data/2.5/weather?q="
+                + city
+                + "&units=" + this.getUnit() + "&appid="
+                + this.apiKey
+            )
+                .then((response) => response.json())
+                .then((data) => this.getWeatherInfo(data));
 
-            console.log();
-            if (data.cod == "404") {
-                alert("City name not valid")
-            }
+        } catch (error) {
+            console.log(error)
+            alert('Enter a valid location');
+        }
     },
 
     // Fetches the weather information from API based on geolocation
     fetchWeatherByGeolocation: function () {
         // Making API call
         fetch("http://api.openweathermap.org/geo/1.0/reverse?lat="
-        + this.coordinates[0]
-        + "&lon="
-        + this.coordinates[1] + "&appid="
-        + this.apiKey
+            + this.coordinates[0]
+            + "&lon="
+            + this.coordinates[1] + "&appid="
+            + this.apiKey
         )
             .then((response) => response.json())
             .then((data) => this.fetchWeatherByCity(this.getLocation(data)));
@@ -59,34 +60,40 @@ let weather = {
 
     // Gets the weather info from API response
     getWeatherInfo: function (data) {
-        const { name } = data;  
-        const { icon, description } = data.weather[0];
-        const { temp, humidity, feels_like, temp_min, temp_max } = data.main;
-        const { speed } = data.wind;
-        console.log(name, icon, description, temp, humidity, feels_like, temp_min, temp_max, speed);
+        try {
+            // Extract relevant information from JSON response.
+            const { name } = data;
+            const { icon, description } = data.weather[0];
+            const { temp, humidity, feels_like, temp_min, temp_max } = data.main;
+            const { speed } = data.wind;
+            console.log(name, icon, description, temp, humidity, feels_like, temp_min, temp_max, speed);
 
-        // Finding out which symbol to display based on the unit
-        let symbol;
-        if (unitValue === "fahrenheit") {
-            symbol = "°F";
-        } else {
-            symbol = "°C";
+            // Finding out which symbol to display based on the unit
+            let symbol;
+            if (unitValue === "fahrenheit") {
+                symbol = "°F";
+            } else {
+                symbol = "°C";
+            }
+
+            // Assigning the weather details obtained from the API
+            // response to their corresponding fields in the page
+            document.querySelector(".city").innerText = "Weather in " + name;
+            document.querySelector(".description").innerText = description;
+            document.querySelector(".temp").innerText = temp + symbol;
+            document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + ".png";
+            document.querySelector("#humidity-value").innerText = humidity + "%";
+            document.querySelector("#wind-value").innerText = speed + "km/h";
+            document.querySelector("#feelslike-value").innerText = feels_like + symbol;
+            document.querySelector("#lowhigh-value").innerText = temp_min + symbol + " / " + temp_max + symbol;
+            document.body.style.backgroundImage = "url(https://source.unsplash.com/1600x900/?" + name + ")";
+            document.querySelector(".card-body").classList.remove("loading");
+
+        } catch (error) {
+            console.log(error);
+            alert("Enter a valid location")
         }
-
-        // Assigning the weather details obtained from the API
-        // response to their corresponding fields in the page
-        document.querySelector(".city").innerText = "Weather in " + name;
-        document.querySelector(".description").innerText = description;
-        document.querySelector(".temp").innerText = temp + symbol;
-        document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + ".png";
-        document.querySelector("#humidity-value").innerText = humidity + "%";
-        document.querySelector("#wind-value").innerText = speed + "km/h";
-        document.querySelector("#feelslike-value").innerText = feels_like + symbol;
-        document.querySelector("#lowhigh-value").innerText = temp_min + symbol + " / " + temp_max + symbol;
-        document.body.style.backgroundImage = "url(https://source.unsplash.com/1600x900/?" + name + ")";
     },
-
-    
 
     // Gets the city name entered in the search bar
     // and fetches the weather for that city
@@ -127,7 +134,7 @@ function getCurrentLocation() {
         // Get the weather of the based on the user's current location
         // by using their longitude and latitude
         weather.fetchWeatherByGeolocation(weather.coordinates);
-      }    
+    }
 
     // Executes when coordinates were not found or user denied permission
     const failureCallback = (error) => {
@@ -138,8 +145,10 @@ function getCurrentLocation() {
     // I will execute success or failure later
 }
 
-// Get weather by the user's current location when the page loads initially
+// Clear the search bar when the page is refreshed
 window.onload = function () {
     document.querySelector(".bar").value = "";
-    getCurrentLocation();
 };
+
+// Get weather by the user's current location when the page loads initially
+getCurrentLocation();

@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!--Linking the javascript file to this html document-->
     <script src="script.js" defer></script>
     <title>Home Page</title>
 </head>
@@ -22,6 +23,7 @@
             <div class="header-links">
                 <nav class="nav-links">
                     <ul class="nav-content">
+                        <!--Header links to other pages-->
                         <li><a class = "link" href="home.html">Home</a></li>
                         <li><a class = "link" href="contact.html">Suggestions</a></li>
                         <li><a class = "link" href="about.html">About</a></li>
@@ -34,6 +36,7 @@
                 <div class="search-bar">
                     <input class="bar" type="text" placeholder="Enter Location..." value="">
                     <div class="select">
+                        <!--Option to select unit for the temperature-->
                         <label for="unit" id="unit-label">Select Unit:</label>
                         <select name="unit" id="select-unit">
                             <option value="fahrenheit">°F</option>
@@ -42,6 +45,7 @@
                     </div>
                 </div>
                 <div class="search-button">
+                    <!--Image for magnifying glass in search button-->
                     <button class="btn-primary"><svg stroke="currentColor" fill="currentColor" stroke-width="0"
                             viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -53,13 +57,14 @@
         </div>
     </header>
     <main>
-        <div class="card-body">
-            <div class="weather-details loading">
+        <!--Container for displaying weather information-->
+        <div class="card-body loading">
+            <div class="weather-details">
                 <h2 class="city"></h2>
                 <div class="summary">
                     <h1 class="temp"></h1>
                     <div class="icon-description">
-                        <img src="https://openweathermap.org/img/wn/04n.png" alt="" class="icon">
+                        <img src="" alt="" class="icon">
                         <div class="description"></div>
                     </div>
                 </div>
