@@ -1,18 +1,14 @@
-// Getting the preferred unit of measurement
+// Stores the preferred unit of measurement
 var unitValue = document.querySelector("#select-unit").value;
 
-var lat = 0;
-var lon = 0;
-
-// Weather object containing functions to fetch weather and display weather
+// Weather object containing functions used to fetch weather and display weather
 let weather = {
 
     // My API key
     apiKey: "942dd77fa358eb3439a8212cb16724cd",
 
     // User's location upon opening the webpage.
-    
-    // coordinates: ["",""],
+    coordinates: ["",""],
 
     // Returns the appropriate unit parameter based on the user's choice
     getUnit: function () {
@@ -33,24 +29,30 @@ let weather = {
         )
             .then((response) => response.json())
             .then((data) => this.getWeatherInfo(data));
+
+            console.log();
+            if (data.cod == "404") {
+                alert("City name not valid")
+            }
     },
 
     // Fetches the weather information from API based on geolocation
     fetchWeatherByGeolocation: function () {
-        // const coordinates = weather.getCurrentLocation();
         // Making API call
         fetch("http://api.openweathermap.org/geo/1.0/reverse?lat="
-        + lat
+        + this.coordinates[0]
         + "&lon="
-        + lon + "&appid="
+        + this.coordinates[1] + "&appid="
         + this.apiKey
         )
             .then((response) => response.json())
             .then((data) => this.fetchWeatherByCity(this.getLocation(data)));
     },
 
+    // Gets the name of the user's current location
     getLocation: function (data) {
-        const { name } = data;
+        // Accessing the name of the location based on the user's city
+        const { name } = data[0];
         console.log("Your location is " + name);
         return name;
     },
@@ -74,31 +76,22 @@ let weather = {
         // Assigning the weather details obtained from the API
         // response to their corresponding fields in the page
         document.querySelector(".city").innerText = "Weather in " + name;
+        document.querySelector(".description").innerText = description;
         document.querySelector(".temp").innerText = temp + symbol;
         document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + ".png";
         document.querySelector("#humidity-value").innerText = humidity + "%";
         document.querySelector("#wind-value").innerText = speed + "km/h";
         document.querySelector("#feelslike-value").innerText = feels_like + symbol;
         document.querySelector("#lowhigh-value").innerText = temp_min + symbol + " / " + temp_max + symbol;
+        document.body.style.backgroundImage = "url(https://source.unsplash.com/1600x900/?" + name + ")";
     },
 
-
-    // Get the user's current latitude and longitude
-    getCurrentLocation: function (lat, lon) {
-        console.log("Getting lat and long");
-        navigator.geolocation.getCurrentPosition(position => {
-            const { latitude, longitude } = position.coords;
-            lat = "" + latitude;
-            lon = "" + longitude;
-            console.log(lat, lon);
-            // return [lat, lon]
-          });
-    },
+    
 
     // Gets the city name entered in the search bar
     // and fetches the weather for that city
     search: function () {
-        let location = document.querySelector(".bar").value
+        let location = document.querySelector(".bar").value;
         this.fetchWeatherByCity(location);
     }
 };
@@ -121,7 +114,32 @@ document.querySelector(".bar").addEventListener("keyup", function (event) {
     }
 });
 
+// Get the user's current latitude and longitude
+function getCurrentLocation() {
 
-// Get weather by the user's current location 
- weather.getCurrentLocation();
-weather.fetchWeatherByGeolocation();
+    // Code executes when coordinates are found
+    const successCallback = (position) => {
+        const { latitude, longitude } = position.coords;
+        weather.coordinates[0] += latitude;
+        weather.coordinates[1] += longitude;
+        console.log(weather.coordinates[0], weather.coordinates[1]);
+
+        // Get the weather of the based on the user's current location
+        // by using their longitude and latitude
+        weather.fetchWeatherByGeolocation(weather.coordinates);
+      }    
+
+    // Executes when coordinates were not found or user denied permission
+    const failureCallback = (error) => {
+        console.error(error);
+        console.log("Access denied or something")
+    }
+    navigator.geolocation.getCurrentPosition(successCallback, failureCallback);
+    // I will execute success or failure later
+}
+
+// Get weather by the user's current location when the page loads initially
+window.onload = function () {
+    document.querySelector(".bar").value = "";
+    getCurrentLocation();
+};
